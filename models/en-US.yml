@@ -7,12 +7,12 @@ interactionModel:
     - name: AMAZON.CancelIntent
       samples: []
     - name: AMAZON.HelpIntent
-      samples: 
+      samples:
       - help
     - name: AMAZON.StopIntent
       samples: []
     - name: AmIASmallBusinessIntent
-      slots: 
+      slots:
       - name: naics_code
         type: AMAZON.NUMBER
         samples:
@@ -62,11 +62,9 @@ interactionModel:
   - id: Elicit.Slot.Naics_1
     variations:
     - type: PlainText
-      value: What is your industry code?
-    - type: PlainText
       value: What is your naics code?
     - type: PlainText
-      value: Tell me your industry code
+      value: Tell me your naics code
   - id: Elicit.Slot.EmployeeCount1
     variations:
     - type: PlainText
