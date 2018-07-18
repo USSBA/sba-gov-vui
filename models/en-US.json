@@ -10,7 +10,9 @@
         },
         {
           "name": "AMAZON.HelpIntent",
-          "samples": []
+          "samples": [
+            "help"
+          ]
         },
         {
           "name": "AMAZON.StopIntent",
@@ -31,7 +33,7 @@
               "name": "employee_count",
               "type": "AMAZON.NUMBER",
               "samples": [
-                "{employee count}",
+                "{employee_count}",
                 "I have {employee_count} employees",
                 "I have {employee_count} total employees"
               ]

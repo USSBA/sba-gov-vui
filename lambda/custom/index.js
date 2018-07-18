@@ -8,12 +8,11 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
   },
   handle(handlerInput) {
-    const speechText = 'Welcome to the S. B. A. Voice Assistance, how can I help?';
+    const speechText = 'Welcome to the S. B. A. Voice Assistant, how can I help?';
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
-      .withSimpleCard('Hello World', speechText)
       .getResponse();
   },
 };
@@ -28,7 +27,6 @@ const AmIASmallBusinessIntentHandler = {
     const speechText = 'OK, I can help with that';
 
     return handlerInput.responseBuilder
-      .speak(speechText)
       .addDelegateDirective(intent)
       .getResponse();
   },

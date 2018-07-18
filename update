@@ -1,3 +1,3 @@
 #!/bin/bash
-./scripts/build-model.sh 
+yaml2json -p models/en-US.yml > models/en-US.json
 ask deploy --force                                                                                                                                                                                              
