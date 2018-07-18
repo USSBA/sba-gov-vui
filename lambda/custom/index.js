@@ -2,6 +2,7 @@
 /* eslint-disable  no-console */
 
 const Alexa = require('ask-sdk-core');
+const axios = require('axios')
 
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
@@ -17,6 +18,43 @@ const LaunchRequestHandler = {
   },
 };
 
+const AmIASmallBusinessIntentCompleteHandler = {
+  canHandle(handlerInput) {
+    let request = handlerInput.requestEnvelope.request;
+    return request.type === 'IntentRequest'
+      && request.intent.name === 'AmIASmallBusinessIntent'
+      && request.dialogState && request.dialogState === 'COMPLETED';
+  },
+  handle(handlerInput) {
+    const { intent } = handlerInput.requestEnvelope.request
+    const {slots : { employee_count, naics_code, receipts}} = intent;
+    
+    let employeeCount = employee_count.value;
+    let naics = naics_code.value;
+    let receiptsValue = receipts.value;
+    
+    let uri = `https://mint.ussba.io/isSmallBusiness?id=${naics}&revenue=${receiptsValue}&employeeCount=${employeeCount}`;
+    console.log("uri", uri)
+    return axios
+      .get(uri)
+      .then(result => {
+        console.log("Result", result)
+        console.log("Result.data", result.data)
+        let text = ""
+        if(result && result.status === 200){
+          let isSmallBusiness = result.data === "true"
+          text = isSmallBusiness ? "Congratulations you qualify as a small business" : "I'm sorry this business does not qualify as a small business"
+        }else{
+          text = "I'm sorry there was an error determining your business's status"
+        }
+        
+        return handlerInput.responseBuilder
+          .speak(text)
+          .getResponse();
+    })
+  }
+};
+
 const AmIASmallBusinessIntentHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest'
@@ -24,7 +62,6 @@ const AmIASmallBusinessIntentHandler = {
   },
   handle(handlerInput) {
     const { intent } = handlerInput.requestEnvelope.request
-    const speechText = 'OK, I can help with that';
 
     return handlerInput.responseBuilder
       .addDelegateDirective(intent)
@@ -93,6 +130,7 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 exports.handler = skillBuilder
   .addRequestHandlers(
     LaunchRequestHandler,
+    AmIASmallBusinessIntentCompleteHandler,
     AmIASmallBusinessIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
