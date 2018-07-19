@@ -4,13 +4,16 @@
 const Alexa = require('ask-sdk-core');
 const axios = require('axios')
 const constants = require("./constants")
+const utils = require("./utils")
+
+
 
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
   },
   handle(handlerInput) {
-    const speechText = 'Welcome to the S. B. A. Voice Assistant, how can I help?';
+    const speechText = constants.LaunchRequestIntent.welcomeText;
 
     return handlerInput.responseBuilder
       .speak(speechText)
@@ -28,13 +31,20 @@ const AmIASmallBusinessIntentCompleteHandler = {
   },
   handle(handlerInput) {
     const { intent } = handlerInput.requestEnvelope.request
-    const {slots : { employee_count, naics_code, annual_reciepts}} = intent;
+    const {slots : { employee_count, naics_code, annual_receipts}} = intent;
     
     let employeeCount = employee_count.value;
-    let naics = naics_code.value;
-    let receipts = annual_reciepts.value;
+    console.log("EmployeeCount", employeeCount)
+    if(!utils.isNumeric(employeeCount)){
+      return handlerInput.responseBuilder
+        .speak(constants.SmallBusinessIntent.badEmployeeCount)
+        .getResponse();
+    }
     
-    let uri = `https://mint.ussba.io/isSmallBusiness?id=${naics}&revenue=${receipts}&employeeCount=${employeeCount}`;
+    let naics = naics_code.value;
+    let receipts = annual_receipts.value;
+    
+    let uri = `https://${constants.interfaces.sizeStandardsHostName}/isSmallBusiness?id=${naics}&revenue=${receipts}&employeeCount=${employeeCount}`;
     console.log("uri", uri)
     return axios
       .get(uri)

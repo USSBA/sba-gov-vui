@@ -21,7 +21,9 @@ An Alexa skill and ChatBot for SBA.gov voice and chat interface
 1. `./update`
 
 ### Helpful Documentation
-1. ASK CLI: https://youtu.be/I-Dw8IpnS2g
-1. https://ask-sdk-for-nodejs.readthedocs.io/en/latest/
-1. https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs
-. https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html
+1. ASK CLI: 
+    1. https://youtu.be/I-Dw8IpnS2g
+    1. https://developer.amazon.com/docs/smapi/ask-cli-command-reference.html
+1. Node js SDK
+    1. https://ask-sdk-for-nodejs.readthedocs.io/en/latest/
+    1. https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs
