@@ -104,4 +104,4 @@ interactionModel:
   - id: Confirm.Slot.Annualreceipts1
     variations:
     - type: SSML
-      value: <speak>So, you're business has {annual_receipts} in annual reciepts?</speak>
+      value: <speak>So, you're business has {annual_receipts} in annual receipts?</speak>
