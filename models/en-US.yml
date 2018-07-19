@@ -13,7 +13,7 @@ interactionModel:
       samples: []
     - name: UnderstandTerminologyIntent
       slots:
-      - name: {term}
+      - name: term
         type: AMAZON.SearchQuery
         samples:
         - what is {term}
