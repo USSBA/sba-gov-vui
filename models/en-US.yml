@@ -35,6 +35,10 @@ interactionModel:
         type: AMAZON.NUMBER
         samples:
         - "{annual_receipts}"
+        - "{annual_receipts} dollars"
+        - "{annual_receipts} bucks"
+        - "{annual_receipts} in annual receipts"
+        - "{annual_receipts} in revenue"
         - The amount of annual receipts is {annual_receipts} dollars per year
       samples:
       - am I a small business
