@@ -3,7 +3,7 @@
 
 const sizeStandardsClient = require("./size-standards-client")
 
-const utils = require("./utils")
+const utils = require("../utils")
 const text = utils.getConstantText;
 
 
@@ -76,8 +76,19 @@ const AmIASmallBusinessIntentValidationHandler = {
           .then(naicsData => {
             console.log("Found naics data", naicsData)
             if (naicsData) {
+              // example data: {"id":"111110","description":"Soybean Farming","sectorId":"11","sectorDescription":"Agriculture, Forestry, Fishing and Hunting","subsectorId":"111","subsectorDescription":"Crop Production","revenueLimit":0.75,"employeeCountLimit":null,"footnote":null,"parent":null,"assetLimit":null}
+              const { id, description, revenueLimit, employeeCountLimit } = naicsData;
+              let newIntent = Object.assign({}, intent)
+              if(revenueLimit === null){
+                // valueToInsert = {slots: {annual_receipts: {value: -1}}}
+                newIntent.slots.annual_receipts.value = -1
+              }else if(employeeCountLimit === null){
+                // valueToInsert = {slots: {employee_count: {value: -1}}}
+                newIntent.slots.employee_count.value = -1
+              }
+              
               return handlerInput.responseBuilder
-                .addDelegateDirective(intent)
+                .addDelegateDirective(newIntent)
                 .getResponse();
             }
             else {

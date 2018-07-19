@@ -1,5 +1,5 @@
 const axios = require('axios')
-const constants = require('./constants.js')
+const constants = require('../constants.js')
 
 function isSmallBusiness(naics, receipts, employeeCount) {
   let uri = `https://${constants.interfaces.sizeStandardsHostName}/isSmallBusiness?id=${naics}&revenue=${receipts}&employeeCount=${employeeCount}`;
