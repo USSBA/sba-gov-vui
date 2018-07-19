@@ -58,14 +58,14 @@ interactionModel:
           elicitation: Elicit.Slot.Naics_1
       - name: employee_count
         type: AMAZON.NUMBER
-        confirmationRequired: false
+        confirmationRequired: true
         elicitationRequired: true
         prompts:
           confirmation: Confirm.Slot.EmployeeCount1
           elicitation: Elicit.Slot.EmployeeCount1
       - name: annual_receipts
         type: AMAZON.NUMBER
-        confirmationRequired: false
+        confirmationRequired: true
         elicitationRequired: true
         prompts:
           confirmation: Confirm.Slot.Annualreceipts1
