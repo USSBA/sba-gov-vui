@@ -54,7 +54,7 @@ interactionModel:
         confirmationRequired: true
         elicitationRequired: true
         prompts:
-          confirmation:Confirm.Slot.Naics_1,
+          confirmation: Confirm.Slot.Naics_1,
           elicitation: Elicit.Slot.Naics_1
       - name: employee_count
         type: AMAZON.NUMBER
