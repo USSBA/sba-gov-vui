@@ -87,5 +87,5 @@ interactionModel:
       value: Just confirm, your industry code is {naics_code}, and your total employee count is {employee_count} and your annual reciepts is {annual_reciepts}?
     - type: PlainText
       value: Ok, determine the status for code {naics_code}, total employee count {employee_count}, and annual reciepts {annual_reciepts}. Is that correct?
-    - type: PlainText
-      value: So I have code {naics_code}, total employee count {employee_count}, and annual reciepts {annual_reciepts}. Is that correct?
+    - type: SSML
+      value: So I have code <say-as interpret-as="digits">{naics_code}<say-as>, total employee count {employee_count}, and annual reciepts {annual_reciepts}. Is that correct?

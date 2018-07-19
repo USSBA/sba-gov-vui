@@ -3,6 +3,7 @@
 
 const Alexa = require('ask-sdk-core');
 const axios = require('axios')
+const constants = require("./constants")
 
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
@@ -27,13 +28,13 @@ const AmIASmallBusinessIntentCompleteHandler = {
   },
   handle(handlerInput) {
     const { intent } = handlerInput.requestEnvelope.request
-    const {slots : { employee_count, naics_code, receipts}} = intent;
+    const {slots : { employee_count, naics_code, annual_reciepts}} = intent;
     
     let employeeCount = employee_count.value;
     let naics = naics_code.value;
-    let receiptsValue = receipts.value;
+    let receipts = annual_reciepts.value;
     
-    let uri = `https://mint.ussba.io/isSmallBusiness?id=${naics}&revenue=${receiptsValue}&employeeCount=${employeeCount}`;
+    let uri = `https://mint.ussba.io/isSmallBusiness?id=${naics}&revenue=${receipts}&employeeCount=${employeeCount}`;
     console.log("uri", uri)
     return axios
       .get(uri)
@@ -41,11 +42,11 @@ const AmIASmallBusinessIntentCompleteHandler = {
         console.log("Result", result)
         console.log("Result.data", result.data)
         let text = ""
-        if(result && result.status === 200){
-          let isSmallBusiness = result.data === "true"
-          text = isSmallBusiness ? "Congratulations you qualify as a small business" : "I'm sorry this business does not qualify as a small business"
+        if(result && result.status === 200 && (result.data === "true" || result.data === "false")){
+          let isSmallBusiness = result.data === "true" 
+          text = isSmallBusiness ?  constants.SmallBusinessIntent.positive :constants.SmallBusinessIntent.negative 
         }else{
-          text = "I'm sorry there was an error determining your business's status"
+          text = constants.SmallBusinessIntent.errorMessage;
         }
         
         return handlerInput.responseBuilder
