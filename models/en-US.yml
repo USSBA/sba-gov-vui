@@ -61,12 +61,14 @@ interactionModel:
         confirmationRequired: false
         elicitationRequired: true
         prompts:
+          confirmation: Confirm.Slot.EmployeeCount1
           elicitation: Elicit.Slot.EmployeeCount1
       - name: annual_receipts
         type: AMAZON.NUMBER
         confirmationRequired: false
         elicitationRequired: true
         prompts:
+          confirmation: Confirm.Slot.Annualreceipts1
           elicitation: Elicit.Slot.Annualreceipts1
   prompts:
   - id: Elicit.Slot.Naics_1
@@ -95,8 +97,11 @@ interactionModel:
     variations:
     - type: SSML
       value: <speak>I heard naics code <say-as interpret-as="characters">{naics_code}</say-as>. Is that right?</speak>
-    #   value: <speak>Just confirm, your industry code is <say-as interpret-as="characters">{naics_code}</say-as>, and your total employee count is {employee_count} and your annual receipts is {annual_receipts}?</speak>
-    # - type: SSML
-    #   value: <speak>Ok, determine the status for code <say-as interpret-as="characters">{naics_code}</say-as>, total employee count {employee_count}, and annual receipts {annual_receipts}. Is that correct?</speak>
-    # - type: SSML
-    #   value: <speak>So I have code <say-as interpret-as="characters">{naics_code}</say-as>, total employee count {employee_count}, and annual receipts {annual_receipts}. Is that correct?</speak>
+  - id: Confirm.Slot.EmployeeCount1
+    variations:
+    - type: SSML
+      value: <speak>So, you're business employs around {employee_count} people?</speak>
+  - id: Confirm.Slot.Annualreceipts1
+    variations:
+    - type: SSML
+      value: <speak>So, you're business has {annual_receipts} in annual reciepts?</speak>
