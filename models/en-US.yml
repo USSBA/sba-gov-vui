@@ -23,6 +23,7 @@ interactionModel:
         samples:
         - "{employee_count}"
         - I have {employee_count} employees
+        - I have {employee_count} people
         - I have {employee_count} total employees
       - name: annual_receipts
         type: AMAZON.NUMBER
