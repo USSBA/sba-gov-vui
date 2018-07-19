@@ -21,12 +21,12 @@ const AmIASmallBusinessIntentCompleteHandler = {
     return sizeStandardsClient.isSmallBusiness(naics, receipts, employeeCount)
       .then(result => {
         return handlerInput.responseBuilder
-          .speak(result ? text("SmallBusinessIntent.positive") : text("SmallBusinessIntent.negative"))
+          .speak(result ? text("AmIASmallBusinessIntent.positive") : text("AmIASmallBusinessIntent.negative"))
           .getResponse();
       })
       .catch(error => {
         return handlerInput.responseBuilder
-          .speak(text("SmallBusinessIntent.errorMessage"))
+          .speak(text("AmIASmallBusinessIntent.errorMessage"))
           .getResponse();
       })
   }
@@ -47,7 +47,7 @@ const AmIASmallBusinessIntentValidationHandler = {
       console.log("EmployeeCount", employeeCount)
       if (!utils.isNumeric(employeeCount)) {
         return handlerInput.responseBuilder
-          .speak(text("SmallBusinessIntent.badEmployeeCount"))
+          .speak(text("AmIASmallBusinessIntent.badEmployeeCount"))
           .addElicitSlotDirective("employee_count")
           .getResponse();
       }
@@ -57,7 +57,7 @@ const AmIASmallBusinessIntentValidationHandler = {
       console.log("receipts", receipts)
       if (!utils.isNumeric(receipts)) {
         return handlerInput.responseBuilder
-          .speak(text("SmallBusinessIntent.badReceipts"))
+          .speak(text("AmIASmallBusinessIntent.badReceipts"))
           .addElicitSlotDirective("annual_receipts")
           .getResponse();
       }
@@ -67,7 +67,7 @@ const AmIASmallBusinessIntentValidationHandler = {
       console.log("naics", naics)
       if (!utils.isNumeric(naics)) {
         return handlerInput.responseBuilder
-          .speak(text("SmallBusinessIntent.badNaicsCodeNotAumber"))
+          .speak(text("AmIASmallBusinessIntent.badNaicsCodeNotAumber"))
           .addElicitSlotDirective("naics_code")
           .getResponse();
       }
@@ -82,14 +82,14 @@ const AmIASmallBusinessIntentValidationHandler = {
             }
             else {
               return handlerInput.responseBuilder
-                .speak(text("SmallBusinessIntent.badNaicsCode"))
+                .speak(text("AmIASmallBusinessIntent.badNaicsCode"))
                 .addElicitSlotDirective("naics_code")
                 .getResponse();
             }
           })
           .catch(error => {
             return handlerInput.responseBuilder
-              .speak(text("SmallBusinessIntent.unableToHelp"))
+              .speak(text("AmIASmallBusinessIntent.unableToHelp"))
               .withShouldEndSession(true)
               .getResponse();
           })
