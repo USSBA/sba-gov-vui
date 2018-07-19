@@ -6,7 +6,7 @@ module.exports = {
         message: 'Sorry, I can\'t understand the command. Please say again.'
     },
     CancelAndStopIntent:{
-        message: 'Hope we helped!'  
+        message: 'Hope we helped!'
     },
     LaunchRequestIntent:{
         welcomeText: 'Welcome to the S. B. A. Voice Assistant, how can I help?'
@@ -21,6 +21,10 @@ module.exports = {
         badNaicsCodeNotAumber: "I'm sorry, that is not a valid code. A NAICS code should be a six digit number.  Can you repeat your industry code?",
         unableToHelp: "I'm sorry, but I can't help with that right now.  Try again later."
     },
+    // UnderstandTerminologyIntent: {
+    //     naics: "North American Industry Classification System, or naics for short. It's used to classify business establishments according to type of economic activity."
+    //     annualReceipts: "This is the total income (or gross income) plus the cost of goods sold. These numbers can normally be found on the business’ IRS tax return forms."
+    // },
     HelpIntent: {
         message: 'You can say : am I a small business!'
     }
