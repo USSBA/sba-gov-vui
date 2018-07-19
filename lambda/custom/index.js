@@ -25,25 +25,14 @@ const LaunchRequestHandler = {
 const AmIASmallBusinessIntentCompleteHandler = {
   canHandle(handlerInput) {
     let request = handlerInput.requestEnvelope.request;
-    return request.type === 'IntentRequest'
-      && request.intent.name === 'AmIASmallBusinessIntent'
-      && request.dialogState && request.dialogState === 'COMPLETED';
+    return request.type === 'IntentRequest' &&
+      request.intent.name === 'AmIASmallBusinessIntent' &&
+      request.dialogState && request.dialogState === 'COMPLETED';
   },
   handle(handlerInput) {
     const { intent } = handlerInput.requestEnvelope.request
-    const {slots : { employee_count, naics_code, annual_receipts}} = intent;
-    
-    let employeeCount = employee_count.value;
-    console.log("EmployeeCount", employeeCount)
-    if(!utils.isNumeric(employeeCount)){
-      return handlerInput.responseBuilder
-        .speak(constants.SmallBusinessIntent.badEmployeeCount)
-        .getResponse();
-    }
-    
-    let naics = naics_code.value;
-    let receipts = annual_receipts.value;
-    
+    const { slots: { employee_count: { value: employeeCount }, naics_code: { value: naics }, annual_receipts: { value: receipts } } } = intent;
+
     let uri = `https://${constants.interfaces.sizeStandardsHostName}/isSmallBusiness?id=${naics}&revenue=${receipts}&employeeCount=${employeeCount}`;
     console.log("uri", uri)
     return axios
@@ -52,24 +41,54 @@ const AmIASmallBusinessIntentCompleteHandler = {
         console.log("Result", result)
         console.log("Result.data", result.data)
         let text = ""
-        if(result && result.status === 200 && (result.data === "true" || result.data === "false")){
-          let isSmallBusiness = result.data === "true" 
-          text = isSmallBusiness ?  constants.SmallBusinessIntent.positive :constants.SmallBusinessIntent.negative 
-        }else{
+        if (result && result.status === 200 && (result.data === "true" || result.data === "false")) {
+          let isSmallBusiness = result.data === "true"
+          text = isSmallBusiness ? constants.SmallBusinessIntent.positive : constants.SmallBusinessIntent.negative
+        }
+        else {
           text = constants.SmallBusinessIntent.errorMessage;
         }
-        
+
         return handlerInput.responseBuilder
           .speak(text)
           .getResponse();
-    })
+      })
   }
 };
 
+const AmIASmallBusinessIntentValidationHandler = {
+  canHandle(handlerInput) {
+    let request = handlerInput.requestEnvelope.request;
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+      handlerInput.requestEnvelope.request.intent.name === 'AmIASmallBusinessIntent' &&
+      request.dialogState && request.dialogState === 'IN_PROGRESS';
+  },
+  handle(handlerInput) {
+    const { intent } = handlerInput.requestEnvelope.request
+    const { slots: { employee_count: { value: employeeCount }, naics_code: { value: naics }, annual_receipts: { value: receipts } } } = intent;
+
+    if(employeeCount){
+      console.log("EmployeeCount", employeeCount)
+      if (!utils.isNumeric(employeeCount)) {
+        let newIntent = Object.assign({}, intent, {slots: {employee_count: {}}})
+        return handlerInput.responseBuilder
+          .speak(constants.SmallBusinessIntent.badEmployeeCount)
+          .addElicitSlotDirective("employee_count")
+          .getResponse();
+      }
+    }
+
+    return handlerInput.responseBuilder
+      .addDelegateDirective(intent)
+      .getResponse();
+  },
+};
+
+
 const AmIASmallBusinessIntentHandler = {
   canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'AmIASmallBusinessIntent';
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+      handlerInput.requestEnvelope.request.intent.name === 'AmIASmallBusinessIntent';
   },
   handle(handlerInput) {
     const { intent } = handlerInput.requestEnvelope.request
@@ -82,8 +101,8 @@ const AmIASmallBusinessIntentHandler = {
 
 const HelpIntentHandler = {
   canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+      handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
   },
   handle(handlerInput) {
     const speechText = 'You can say hello to me!';
@@ -97,9 +116,9 @@ const HelpIntentHandler = {
 
 const CancelAndStopIntentHandler = {
   canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
-        || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+      (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent' ||
+        handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
   },
   handle(handlerInput) {
     const speechText = 'Goodbye!';
@@ -141,6 +160,7 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 exports.handler = skillBuilder
   .addRequestHandlers(
     LaunchRequestHandler,
+    AmIASmallBusinessIntentValidationHandler,
     AmIASmallBusinessIntentCompleteHandler,
     AmIASmallBusinessIntentHandler,
     HelpIntentHandler,
