@@ -22,9 +22,9 @@ interactionModel:
         type: AMAZON.NUMBER
         samples:
         - "{employee_count}"
-        # - "{employee_count}" employees
-        # - "{employee_count}" people
-        # - "{employee_count}" staff
+        - "{employee_count} employees"
+        - "{employee_count} people"
+        - "{employee_count} staff"
         - I have {employee_count} employees
         - I have {employee_count} people
         - I have {employee_count} staff
