@@ -80,7 +80,13 @@ const AmIASmallBusinessIntentValidationHandler = {
 
     if (naics) {
       console.log("naics", naics)
-      if (!utils.isNumeric(receipts)) {
+      if (!utils.isNumeric(naics)) {
+        return handlerInput.responseBuilder
+          .speak(constants.SmallBusinessIntent.badNaicsCodeNotAumber)
+          .addElicitSlotDirective("naics_code")
+          .getResponse();
+      }
+      else {
         return sizeStandardsClient.fetchNaics(naics)
           .then(naicsData => {
             console.log("Found naics data", naicsData)
@@ -102,12 +108,6 @@ const AmIASmallBusinessIntentValidationHandler = {
               .withShouldEndSession(true)
               .getResponse();
           })
-      }
-      else {
-        return handlerInput.responseBuilder
-          .speak(constants.SmallBusinessIntent.badNaicsCode)
-          .addElicitSlotDirective("naics")
-          .getResponse();
       }
     }
 
