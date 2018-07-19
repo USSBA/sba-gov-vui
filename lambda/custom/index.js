@@ -2,7 +2,7 @@
 /* eslint-disable  no-console */
 
 const Alexa = require('ask-sdk-core');
-const axios = require('axios')
+const sizeStandardsClient = require("./size-standards-client")
 const constants = require("./constants")
 const utils = require("./utils")
 
@@ -33,24 +33,15 @@ const AmIASmallBusinessIntentCompleteHandler = {
     const { intent } = handlerInput.requestEnvelope.request
     const { slots: { employee_count: { value: employeeCount }, naics_code: { value: naics }, annual_receipts: { value: receipts } } } = intent;
 
-    let uri = `https://${constants.interfaces.sizeStandardsHostName}/isSmallBusiness?id=${naics}&revenue=${receipts}&employeeCount=${employeeCount}`;
-    console.log("uri", uri)
-    return axios
-      .get(uri)
+    return sizeStandardsClient.isSmallBusiness(naics, receipts, employeeCount)
       .then(result => {
-        console.log("Result", result)
-        console.log("Result.data", result.data)
-        let text = ""
-        if (result && result.status === 200 && (result.data === "true" || result.data === "false")) {
-          let isSmallBusiness = result.data === "true"
-          text = isSmallBusiness ? constants.SmallBusinessIntent.positive : constants.SmallBusinessIntent.negative
-        }
-        else {
-          text = constants.SmallBusinessIntent.errorMessage;
-        }
-
         return handlerInput.responseBuilder
-          .speak(text)
+          .speak(result ? constants.SmallBusinessIntent.positive : constants.SmallBusinessIntent.negative)
+          .getResponse();
+      })
+      .catch(error => {
+        return handlerInput.responseBuilder
+          .speak(constants.SmallBusinessIntent.errorMessage)
           .getResponse();
       })
   }
@@ -67,14 +58,56 @@ const AmIASmallBusinessIntentValidationHandler = {
     const { intent } = handlerInput.requestEnvelope.request
     const { slots: { employee_count: { value: employeeCount }, naics_code: { value: naics }, annual_receipts: { value: receipts } } } = intent;
 
-    if(employeeCount){
+    if (employeeCount) {
       console.log("EmployeeCount", employeeCount)
       if (!utils.isNumeric(employeeCount)) {
-        let newIntent = Object.assign({}, intent, {slots: {employee_count: {}}})
         return handlerInput.responseBuilder
           .speak(constants.SmallBusinessIntent.badEmployeeCount)
           .addElicitSlotDirective("employee_count")
           .getResponse();
+      }
+    }
+
+    if (receipts) {
+      console.log("receipts", receipts)
+      if (!utils.isNumeric(receipts)) {
+        return handlerInput.responseBuilder
+          .speak(constants.SmallBusinessIntent.badReceipts)
+          .addElicitSlotDirective("annual_receipts")
+          .getResponse();
+      }
+    }
+
+    if (naics) {
+      console.log("naics", naics)
+      if (!utils.isNumeric(naics)) {
+        return handlerInput.responseBuilder
+          .speak(constants.SmallBusinessIntent.badNaicsCodeNotAumber)
+          .addElicitSlotDirective("naics_code")
+          .getResponse();
+      }
+      else {
+        return sizeStandardsClient.fetchNaics(naics)
+          .then(naicsData => {
+            console.log("Found naics data", naicsData)
+            if (naicsData) {
+              return handlerInput.responseBuilder
+                .addDelegateDirective(intent)
+                .getResponse();
+            }
+            else {
+              return handlerInput.responseBuilder
+                .speak(constants.SmallBusinessIntent.badNaicsCode)
+                .addElicitSlotDirective("naics_code")
+                .getResponse();
+            }
+          })
+          .catch(error => {
+            return handlerInput.responseBuilder
+              .speak(constants.SmallBusinessIntent.unableToHelp)
+              .withShouldEndSession(true)
+              .getResponse();
+          })
       }
     }
 
