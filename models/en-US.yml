@@ -15,11 +15,12 @@ interactionModel:
       slots:
       - name: term
         type: AMAZON.SearchQuery
-        samples:
-        - what is {term}
-        - what does {term} mean
-        - define {term}
-        - I don't know {term}
+      samples:
+      - what is {term}
+      - what {term} means
+      - what does {term} mean
+      - define {term}
+      - I don't know {term}
     - name: AmIASmallBusinessIntent
       slots:
       - name: naics_code

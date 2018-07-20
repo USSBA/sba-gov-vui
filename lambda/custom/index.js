@@ -4,7 +4,7 @@
 const Alexa = require('ask-sdk-core');
 const text = require("./utils").getConstantText;
 const SizeStandardHandler = require("./handlers/size-standards")
-
+const UnderstandTerminologyHandler = require('./handlers/understand-terminology')
 
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
@@ -76,10 +76,11 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 exports.handler = skillBuilder
   .addRequestHandlers(
     LaunchRequestHandler,
+    HelpIntentHandler,
+    UnderstandTerminologyHandler.UnderstandTerminologyIntentHandler,
     SizeStandardHandler.AmIASmallBusinessIntentValidationHandler,
     SizeStandardHandler.AmIASmallBusinessIntentCompleteHandler,
     SizeStandardHandler.AmIASmallBusinessIntentHandler,
-    HelpIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler
   )
