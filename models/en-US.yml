@@ -119,7 +119,7 @@ interactionModel:
   - id: Confirm.Slot.Naics_1
     variations:
     - type: SSML
-      value: <speak>I heard naics code <say-as interpret-as="characters">{naics_code}</say-as> for {naics_industry_description}. Is that right?</speak>
+      value: <speak>I heard naics code <say-as interpret-as="digits">{naics_code}</say-as> for {naics_industry_description}. Is that right?</speak>
   - id: Confirm.Slot.EmployeeCount1
     variations:
     - type: SSML
