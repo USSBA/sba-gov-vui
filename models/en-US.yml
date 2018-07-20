@@ -96,26 +96,26 @@ interactionModel:
   prompts:
   - id: Elicit.Slot.Naics_1
     variations:
-    - type: PlainText
-      value: What is your naics code?
-    - type: PlainText
-      value: Tell me your naics code
+    - type: SSML
+      value: <speak>First, I'll need to know the industry your business is in. What is your naics code?</speak>
+    - type: SSML
+      value: <speak>First, I'll need to know the industry your business is in. Could you tell your naics code?</speak>
   - id: Elicit.Slot.EmployeeCount1
     variations:
-    - type: PlainText
-      value: How many employees does your business have?
-    - type: PlainText
-      value: How many people do you employ?
-    - type: PlainText
-      value: Tell me how many employees your business has
+    - type: SSML
+      value: <speak>Great! Next, can you tell me how many people are employed by your {naics_industry_description} business?</speak>
+    - type: SSML
+      value: <speak>Great! Next, I'll need to know how many people work for your {naics_industry_description} business. What's the average number of people employed by your business over the last 12 months?</speak>
+    - type: SSML
+      value: <speak>Great! On average, how many people does your {naics_industry_description} business employ?</speak>
   - id: Elicit.Slot.Annualreceipts1
     variations:
-    - type: PlainText
-      value: What amount of annual receipts does your business have
-    - type: PlainText
-      value: In dollars what amount of annual receipts does your business have?
-    - type: PlainText
-      value: What is the amount of annual receipts in US Dollars?
+      - type: SSML
+      value: <speak>Perfect! Finally, I'll need know the annual reciepts for your {naics_industry_description} business. What amount of revenue does the business acrue?</speak>
+      - type: SSML
+      value: <speak>Perfect! Finally, I'll need to know about your {naics_industry_description} business' annual revenue. What is the ammount in annual reciepts?</speak>
+      - type: SSML
+      value: <speak>Perfect! Finally, what are the annual reciepts for your {naics_industry_description} business?</speak>
   - id: Confirm.Slot.Naics_1
     variations:
     - type: SSML
@@ -127,4 +127,4 @@ interactionModel:
   - id: Confirm.Slot.Annualreceipts1
     variations:
     - type: SSML
-      value: <speak>Did you say that your business has {annual_receipts} dollars in annual receipts?</speak>
+      value: <speak>Did I hear you say {annual_receipts}?</speak>
