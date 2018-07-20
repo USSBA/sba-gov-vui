@@ -3,6 +3,9 @@
 
 const dictionary = require("./dictionary")
 
+const utils = require("../utils")
+const text = value => utils.getConstantText("UnderstandTerminologyIntent."+value);
+
 function findDefinition(requestedTerm){
   let found = dictionary.find(item => item.terms.indexOf(requestedTerm) !== -1)
   return found.definition;
@@ -21,10 +24,24 @@ const UnderstandTerminologyIntentHandler = {
     console.log("Providing definition for " + requestedTerm);
     let definition = findDefinition(requestedTerm);
     console.log("Defintion was found to be " + definition);
+    
+    let responseBuilder = handlerInput.responseBuilder;
+    responseBuilder = responseBuilder.speak(definition)
+    
+    let sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+    let previousAmIASmallBusinessIntent = sessionAttributes.temp_AmIASmallBusinessIntent;
 
-    return handlerInput.responseBuilder
-      .speak(definition)
-      .getResponse();
+    if(previousAmIASmallBusinessIntent){
+      responseBuilder = responseBuilder
+        .speak(definition + "  "+ text("returnToPreviousAmIASmallBusinessIntent"))
+        .reprompt(text("returnToPreviousAmIASmallBusinessIntent"))
+    }else{
+      responseBuilder = responseBuilder.speak(definition)
+    }
+    
+    return responseBuilder.getResponse();
+    
+
   }
 };
 

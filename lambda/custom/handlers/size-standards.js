@@ -18,6 +18,10 @@ const AmIASmallBusinessIntentCompleteHandler = {
     const { intent } = handlerInput.requestEnvelope.request
     const { slots: { employee_count: { value: employeeCount }, naics_code: { value: naics }, annual_receipts: { value: receipts } } } = intent;
     
+    let newSessionData = {};
+    newSessionData['temp_' + intent.name] = {};
+    handlerInput.attributesManager.setSessionAttributes(newSessionData);
+
     return sizeStandardsClient.isSmallBusiness(naics, receipts === -1 ? null : receipts, employeeCount === -1 ? null : employeeCount)
       .then(result => {
         return handlerInput.responseBuilder
@@ -43,7 +47,10 @@ const AmIASmallBusinessIntentValidationHandler = {
     const { intent } = handlerInput.requestEnvelope.request
     const { slots: { employee_count: { value: employeeCount }, naics_code: { value: naics }, annual_receipts: { value: receipts } } } = intent;
 
-
+    let newSessionData = {};
+    newSessionData['temp_' + intent.name] = intent;
+    handlerInput.attributesManager.setSessionAttributes(newSessionData);
+    
     if (employeeCount) {
       console.log("EmployeeCount", employeeCount)
       if (!utils.isNumeric(employeeCount)) {
@@ -125,8 +132,13 @@ const AmIASmallBusinessIntentHandler = {
   handle(handlerInput) {
     const { intent } = handlerInput.requestEnvelope.request
 
+    let sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+    let previousAmIASmallBusinessIntent = sessionAttributes.temp_AmIASmallBusinessIntent;
+
+  
+
     return handlerInput.responseBuilder
-      .addDelegateDirective(intent)
+      .addDelegateDirective(previousAmIASmallBusinessIntent || intent)
       .getResponse();
   },
 };
