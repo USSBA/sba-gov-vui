@@ -16,11 +16,18 @@ interactionModel:
       - name: term
         type: AMAZON.SearchQuery
       samples:
+      - I don't know {term}
+      - I don't what {term} means
+      - I don't know what {term} is
+      - I don't know what a {term} is
       - what is {term}
       - what {term} means
       - what does {term} mean
+      - tell me what {term} means
       - define {term}
-      - I don't know {term}
+      - lookup {term}
+      - lookup the definion of {term}
+      - what's the definition of {term}
     - name: AmIASmallBusinessIntent
       slots:
       - name: naics_code
