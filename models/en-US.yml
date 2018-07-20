@@ -102,12 +102,12 @@ interactionModel:
       value: <speak>First, I'll need to know the industry your business is in. Could you tell your naics code?</speak>
   - id: Elicit.Slot.EmployeeCount1
     variations:
-    - type: PlainText
-      value: How many employees does your business have?
-    - type: PlainText
-      value: How many people do you employ?
-    - type: PlainText
-      value: Tell me how many employees your business has
+    - type: SSML
+      value: <speak>Great! Next, can you tell me how many people are employed by your {naics_industry_description} business?</speak>
+    - type: SSML
+      value: <speak>Great! Next, I'll need to know how many people work for your {naics_industry_description} business. What's the average number of people employed by your business over the last 12 months?</speak>
+    - type: SSML
+      value: <speak>Great! On average, how many people does your {naics_industry_description} business employ?</speak>
   - id: Elicit.Slot.Annualreceipts1
     variations:
     - type: PlainText
