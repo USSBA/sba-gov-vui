@@ -15,6 +15,7 @@ An Alexa skill and ChatBot for SBA.gov voice and chat interface
 1. Install and select the correct Node version: `nvm install && nvm use`
 1. Install ASK CLI: `sudo npm install -g ask-cli` 
 1. Install yaml2js `npm install -g yamljs` (required for the build)
+1. Install yamllint: `npm install -g yaml-lint` (required for the build)
 1. Initialize the ASK CLI: `ask init`
 
 ### Deploying your code
