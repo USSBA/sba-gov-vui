@@ -119,12 +119,12 @@ interactionModel:
   - id: Confirm.Slot.Naics_1
     variations:
     - type: SSML
-      value: <speak>I heard naics code <say-as interpret-as="digits">{naics_code}</say-as> for {naics_industry_description}. Is that right?</speak>
+      value: <speak>Okay, I heard <say-as interpret-as="digits">{naics_code}</say-as>. Are you in the {naics_industry_description} industry?</speak>
   - id: Confirm.Slot.EmployeeCount1
     variations:
     - type: SSML
-      value: <speak>So, your business employs around {employee_count} people?</speak>
+      value: <speak>It sounds like your {naics_industry_description} business employs {employee_count} people, right?</speak>
   - id: Confirm.Slot.Annualreceipts1
     variations:
     - type: SSML
-      value: <speak>So, your business has {annual_receipts} dollars in annual receipts?</speak>
+      value: <speak>Did you say that your business has {annual_receipts} dollars in annual receipts?</speak>
