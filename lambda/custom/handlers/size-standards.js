@@ -18,8 +18,6 @@ const AmIASmallBusinessIntentCompleteHandler = {
     const { intent } = handlerInput.requestEnvelope.request
     const { slots: { employee_count: { value: employeeCount }, naics_code: { value: naics }, annual_receipts: { value: receipts } } } = intent;
     
-    // delete this.attributes['temp_' + this.event.request.intent.name];
-
     return sizeStandardsClient.isSmallBusiness(naics, receipts === -1 ? null : receipts, employeeCount === -1 ? null : employeeCount)
       .then(result => {
         return handlerInput.responseBuilder
@@ -39,13 +37,12 @@ const AmIASmallBusinessIntentValidationHandler = {
     let request = handlerInput.requestEnvelope.request;
     return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
       handlerInput.requestEnvelope.request.intent.name === 'AmIASmallBusinessIntent' 
-      // && request.dialogState && request.dialogState === 'IN_PROGRESS';
+      && request.dialogState && request.dialogState === 'IN_PROGRESS';
   },
   handle(handlerInput) {
     const { intent } = handlerInput.requestEnvelope.request
     const { slots: { employee_count: { value: employeeCount }, naics_code: { value: naics }, annual_receipts: { value: receipts } } } = intent;
 
-    // this.attributes['temp_' + this.event.request.intent.name] = this.event.request.intent;
 
     if (employeeCount) {
       console.log("EmployeeCount", employeeCount)
