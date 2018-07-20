@@ -111,11 +111,11 @@ interactionModel:
   - id: Elicit.Slot.Annualreceipts1
     variations:
       - type: SSML
-        value: <speak>Perfect! Finally, I'll need know the annual reciepts for your {naics_industry_description} business. What amount of revenue does the business acrue?</speak>
+        value: <speak>Perfect! Finally, I'll need know the annual receipts for your {naics_industry_description} business. What amount of revenue does the business acrue?</speak>
       - type: SSML
-        value: <speak>Perfect! Finally, I'll need to know about your {naics_industry_description} business' annual revenue. What is the ammount in annual reciepts?</speak>
+        value: <speak>Perfect! Finally, I'll need to know about your {naics_industry_description} business' annual revenue. What is the ammount in annual receipts?</speak>
       - type: SSML
-        value: <speak>Perfect! Finally, what are the annual reciepts for your {naics_industry_description} business?</speak>
+        value: <speak>Perfect! Finally, what are the annual receipts for your {naics_industry_description} business?</speak>
   - id: Confirm.Slot.Naics_1
     variations:
     - type: SSML
@@ -127,4 +127,4 @@ interactionModel:
   - id: Confirm.Slot.Annualreceipts1
     variations:
     - type: SSML
-      value: <speak>Did I hear you say {annual_receipts}?</speak>
+      value: <speak>Did I hear you say {annual_receipts} dollars?</speak>
