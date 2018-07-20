@@ -62,3 +62,6 @@ typings/
 
 # ignore built json files
 models/*.json
+
+# local probing scripts
+probes/

@@ -18,7 +18,7 @@ const AmIASmallBusinessIntentCompleteHandler = {
     const { intent } = handlerInput.requestEnvelope.request
     const { slots: { employee_count: { value: employeeCount }, naics_code: { value: naics }, annual_receipts: { value: receipts } } } = intent;
 
-    return sizeStandardsClient.isSmallBusiness(naics, receipts, employeeCount)
+    return sizeStandardsClient.isSmallBusiness(naics, receipts === -1 ? null : receipts, employeeCount === -1 ? null : employeeCount)
       .then(result => {
         return handlerInput.responseBuilder
           .speak(result ? text("AmIASmallBusinessIntent.positive") : text("AmIASmallBusinessIntent.negative"))
@@ -79,14 +79,16 @@ const AmIASmallBusinessIntentValidationHandler = {
               // example data: {"id":"111110","description":"Soybean Farming","sectorId":"11","sectorDescription":"Agriculture, Forestry, Fishing and Hunting","subsectorId":"111","subsectorDescription":"Crop Production","revenueLimit":0.75,"employeeCountLimit":null,"footnote":null,"parent":null,"assetLimit":null}
               const { id, description, revenueLimit, employeeCountLimit } = naicsData;
               let newIntent = Object.assign({}, intent)
-              if(revenueLimit === null){
-                // valueToInsert = {slots: {annual_receipts: {value: -1}}}
+              if (revenueLimit === null) {
                 newIntent.slots.annual_receipts.value = -1
-              }else if(employeeCountLimit === null){
-                // valueToInsert = {slots: {employee_count: {value: -1}}}
-                newIntent.slots.employee_count.value = -1
+                newIntent.slots.employee_count.confirmationStatus = "CONFIRMED"
               }
-              
+              else if (employeeCountLimit === null) {
+                newIntent.slots.employee_count.value = -1
+                newIntent.slots.employee_count.confirmationStatus = "CONFIRMED"
+              }
+
+              newIntent.slots.naics_industry_description.value = description;
               return handlerInput.responseBuilder
                 .addDelegateDirective(newIntent)
                 .getResponse();

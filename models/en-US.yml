@@ -27,6 +27,8 @@ interactionModel:
         samples:
         - "{naics_code}"
         - my industry code is {naics_code}
+      - name: naics_industry_description
+        type: AMAZON.NUMBER
       - name: employee_count
         type: AMAZON.NUMBER
         samples:
@@ -65,6 +67,10 @@ interactionModel:
         prompts:
           confirmation: Confirm.Slot.Naics_1
           elicitation: Elicit.Slot.Naics_1
+      - name: naics_industry_description
+        type: AMAZON.NUMBER
+        confirmationRequired: false
+        elicitationRequired: false
       - name: employee_count
         type: AMAZON.NUMBER
         confirmationRequired: true
@@ -105,7 +111,7 @@ interactionModel:
   - id: Confirm.Slot.Naics_1
     variations:
     - type: SSML
-      value: <speak>I heard naics code <say-as interpret-as="characters">{naics_code}</say-as>. Is that right?</speak>
+      value: <speak>I heard naics code <say-as interpret-as="characters">{naics_code}</say-as> for {naics_industry_description}. Is that right?</speak>
   - id: Confirm.Slot.EmployeeCount1
     variations:
     - type: SSML

@@ -1,11 +1,22 @@
 const axios = require('axios')
 const constants = require('../constants.js')
 
-function isSmallBusiness(naics, receipts, employeeCount) {
-  let uri = `https://${constants.interfaces.sizeStandardsHostName}/isSmallBusiness?id=${naics}&revenue=${receipts}&employeeCount=${employeeCount}`;
-  console.log("Calling ", uri)
+function isSmallBusiness(naics, receipts, employees) {
+  const id = naics;
+  const revenue = receipts ? receipts : undefined;
+  const employeeCount = employees ? employees : undefined;
+  let params = {
+    url: "https://" + constants.interfaces.sizeStandardsHostName + "/isSmallBusiness",
+    params: {
+      id,
+      revenue,
+      employeeCount
+    },
+    timeout: 1000
+  }
+  console.log("Making request to SizeStandards API", params)
   return axios
-    .get(uri, { timeout: 1000 })
+    .request(params)
     .then(result => {
       console.log("Result was: ", result.status, result.data)
       if (result && result.status < 400 && (result.data === "true" || result.data === "false")) {
@@ -21,7 +32,7 @@ function isSmallBusiness(naics, receipts, employeeCount) {
 
 function fetchNaics(naics) {
   let uri = `https://${constants.interfaces.sizeStandardsHostName}/naics/${naics}`
-  console.log("Calling ", uri)
+  console.log("Making request to SizeStandards API", uri)
   return axios
     .get(uri, { timeout: 1000 })
     .then(result => {
