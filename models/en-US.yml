@@ -96,10 +96,10 @@ interactionModel:
   prompts:
   - id: Elicit.Slot.Naics_1
     variations:
-    - type: PlainText
-      value: What is your naics code?
-    - type: PlainText
-      value: Tell me your naics code
+    - type: SSML
+      value: <speak>First, I'll need to know the industry your business is in. What is your naics code?</speak>
+    - type: SSML
+      value: <speak>First, I'll need to know the industry your business is in. Could you tell your naics code?</speak>
   - id: Elicit.Slot.EmployeeCount1
     variations:
     - type: PlainText
