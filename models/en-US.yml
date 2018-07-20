@@ -97,9 +97,9 @@ interactionModel:
   - id: Elicit.Slot.Naics_1
     variations:
     - type: SSML
-      value: <speak>First, I'll need to know the industry your business is in. What is your naics code?</speak>
+      value: <speak>First, I'll need to know the industry your business is in. What is your <phoneme alphabet="ipa" ph="neɪks">NAICS</phoneme> code?</speak>
     - type: SSML
-      value: <speak>First, I'll need to know the industry your business is in. Could you tell your naics code?</speak>
+      value: <speak>First, I'll need to know the industry your business is in. Could you tell me your <phoneme alphabet="ipa" ph="neɪks">NAICS</phoneme> code?</speak>
   - id: Elicit.Slot.EmployeeCount1
     variations:
     - type: SSML
@@ -111,7 +111,7 @@ interactionModel:
   - id: Elicit.Slot.Annualreceipts1
     variations:
       - type: SSML
-        value: <speak>Perfect! Finally, I'll need know the annual receipts for your {naics_industry_description} business. What amount of revenue does the business acrue?</speak>
+        value: <speak>Perfect! Finally, I'll need to know the annual receipts for your {naics_industry_description} business. What amount of revenue does the business generate?</speak>
       - type: SSML
         value: <speak>Perfect! Finally, I'll need to know about your {naics_industry_description} business' annual revenue. What is the ammount in annual receipts?</speak>
       - type: SSML
