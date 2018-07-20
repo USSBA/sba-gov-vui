@@ -22,6 +22,6 @@ module.exports = {
     unableToHelp: "Sorry, but I can't help with that right now."
   },
   HelpIntent: {
-    message: 'You can say : am I a small business!'
+    message: 'The S. B. A. Voice Assistant helps determine if your business meets the small business size standards. You can say things like am I a small business to see if you qualify.'
   }
 };
