@@ -89,7 +89,7 @@ const AmIASmallBusinessIntentValidationHandler = {
               let newIntent = Object.assign({}, intent)
               if (revenueLimit === null) {
                 newIntent.slots.annual_receipts.value = -1
-                newIntent.slots.employee_count.confirmationStatus = "CONFIRMED"
+                newIntent.slots.annual_receipts.confirmationStatus = "CONFIRMED"
               }
               else if (employeeCountLimit === null) {
                 newIntent.slots.employee_count.value = -1
