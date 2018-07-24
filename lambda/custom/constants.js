@@ -12,6 +12,7 @@ module.exports = {
     welcomeText: 'Welcome to the S. B. A. Voice Assistant, how can I help?'
   },
   UnderstandTerminologyIntent: {
+    unknown: "I'm sorry, I'm not familiar with that term",
     returnToPreviousAmIASmallBusinessIntent: "Ask me if you are a small business if you would like to continue that process"
   },
   AmIASmallBusinessIntent: {

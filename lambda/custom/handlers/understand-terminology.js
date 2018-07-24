@@ -8,6 +8,9 @@ const text = value => utils.getConstantText("UnderstandTerminologyIntent."+value
 
 function findDefinition(requestedTerm){
   let found = dictionary.find(item => item.terms.indexOf(requestedTerm) !== -1)
+  if(!found){
+    return text("unknown")
+  }
   return found.definition;
 }
 
